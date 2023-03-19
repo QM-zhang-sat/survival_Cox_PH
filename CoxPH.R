@@ -1,5 +1,6 @@
 # *************************************************** *********************************
-#*********Qingmin Zhang writes this code for utilising the coxPh model for data*********
+#*********Qingmin Zhang writes this code ****************
+#*********for utilising the coxPh model for data*********
 #*
 #*
 #**********************************
@@ -7,6 +8,7 @@
 
 # install.packages(c("survival", "survminer", "gt", "conflicted","tidyverse","glue","webshot2"))
 
+#library(ggplot2)
 library(ggplot2)
 library(ggpubr)
 library("survminer")
