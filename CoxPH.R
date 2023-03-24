@@ -9,13 +9,12 @@
 # install.packages(c("survival", "survminer", "gt", "conflicted","tidyverse","glue","webshot2"))
 
 #library(ggplot2)
-library(ggplot2)
-library(ggpubr)
-library("survminer")
-library("survival")
-library(mstate)
-library(gt)
-
+if(!require(ggplot2))install.packages(ggplot2)
+if(!require(ggpubr))install.packages(ggpubr)
+if(!require("survminer"))install.packages("survminer")
+if(!require("survival"))install.packages("survival")
+if(!require(mstate))install.packages(mstate)
+if(!require(gt))install.packages(gt)
 
 data("aidssi2")
 print(aidssi2)
@@ -107,10 +106,11 @@ ggsurvplot(km,
 )
 ####### plot the predicted survival function curve
 # explicitly change the dummy variables
-modelData <- data.frame(model.matrix(~ccr5+Y+d2+ age  , aidssi2_frame)  )
+modelData <- data.frame(model.matrix(~ccr5+Y+d2+ age, aidssi2_frame)  )
 names(modelData) <- c("intercept","ccr5", "Y", "d2", "age")
 # model.matrix(~ccr5, aidssi2)
 # coxph model 
+bull_ccr5 = as.factor(aidssi2$ccr5 )
 res.cox <- coxph(Surv(Y, d2) ~ age + ccr5, data =  modelData)
 res_c0x_sum_dummy = summary(res.cox)
 ggsurvplot(survfit(res.cox), data =  modelData, palette= "#2E9FDF",
@@ -143,4 +143,6 @@ sctest = res_c0x_sum["sctest"]
 waldtest = res_c0x_sum["waldtest"]
 test_combin = data.frame( logtest,  sctest , waldtest  )
 test_combin = data.frame(t(test_combin))
+write.csv(data.frame(test_combin), file ="test_combin.csv")
+#
 
