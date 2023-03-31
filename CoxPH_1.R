@@ -31,6 +31,7 @@ si.stat = data.frame(aidssi2$si.stat)
 death.time = data.frame(aidssi2$death.time)
 death.stat = data.frame(aidssi2$death.stat)
 age.inf = data.frame(aidssi2$age.inf)
+
 x_start = 0
 x_end = max(si.time)+0.5
 ccr5 = data.frame(aidssi2$ccr5)
@@ -55,10 +56,10 @@ names(aidssi2) <- c("patnr",
                     "age.inf",
                     "ccr5")
 write.csv(data.frame(aidssi2), file ="aidssi2.csv")
-# discri_statistic = data.frame(summary(aidssi2))
+discri_statistic = data.frame(summary(aidssi2))
 
 # kaplan-meier curve for original data
-Y <- data.frame(aidssi2$death.time+aidssi2$entry.time) #infection time to terminal event (death from AIDS)
+Y <- data.frame(aidssi2$death.time) # +aidssi2$entry.time. infection time to terminal event (death from AIDS)
 d2 <- data.frame(aidssi2$death.stat)#indicator for death from AIDS
 
 age<- data.frame(aidssi2$age.inf)
@@ -103,21 +104,22 @@ ggsurvplot_combine(fitlist, data = aidssi2_frame,
                    ylim = c(0, 1),
                    xlim =c(x_start, x_end),
                    
-                   risk.table = TRUE, # 添加风险表     
+                   risk.table = TRUE,     
                    risk.table.title = "Number at risk by time",
                    risk.table.fontsize = 3,
                    risk.table.height = 0.3, surv.plot.height = 0.7,
 )
 ####### plot the predicted survival function curve
 # explicitly change the dummy variables
-Y <- data.frame(aidssi2$death.time-aidssi2$entry.time) #time to terminal event (death from AIDS)
+Y <- data.frame(aidssi2$death.time) #-aidssi2$entry.time time to terminal event (death from AIDS)
 d2 <- data.frame(aidssi2$death.stat)#indicator for death from AIDS
 age<- data.frame(aidssi2$age.inf)
 ccr5 <- data.frame(aidssi2$ccr5 )
 aidssi2_frame = cbind(Y, d2, age, ccr5)
 names(aidssi2_frame) <- c("Y", "d2", "age","ccr5")
 # implicitly deal with the dummy variables 
-
+# res_cox <- survfit(Surv(Y, d2) ~ age + ccr5, data =  aidssi2_frame)
+# res_cox_sum = summary(res_cox)
 res.cox <- coxph(Surv(Y, d2) ~ age + ccr5, data =  aidssi2_frame)
 res_c0x_sum = summary(res.cox)
 fitlist_fit<-list(km1, survfit(res.cox))
