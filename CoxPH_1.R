@@ -116,24 +116,6 @@ age<- data.frame(aidssi2$age.inf)
 ccr5 <- data.frame(aidssi2$ccr5 )
 aidssi2_frame = cbind(Y, d2, age, ccr5)
 names(aidssi2_frame) <- c("Y", "d2", "age","ccr5")
-# kaplan-meier curve for original data
-km1<-survfit(Surv(Y, d2)~1, data=aidssi2_frame)
-# set.seed(33)
-# palette <- sample(c("color1", "color2", ...), 324, replace = TRUE)
-ggsurvplot(km1, 
-           #title  = "kaplan-meier curve",  
-           ggtheme = theme_minimal()
-)
-####### plot the predicted survival function curve
-# explicitly change the dummy variables
-modelData <- data.frame(model.matrix(~ccr5+Y+d2+ age  , aidssi2_frame)  )
-names(modelData) <- c("intercept","ccr5", "Y", "d2", "age")
-# model.matrix(~ccr5, aidssi2)
-# coxph model 
-res.cox <- coxph(Surv(Y, d2) ~ age + ccr5, data =  modelData)
-res_c0x_sum_dummy = summary(res.cox)
-ggsurvplot(survfit(res.cox), data =  modelData, palette= "#2E9FDF",
-           ggtheme = theme_minimal())
 # implicitly deal with the dummy variables 
 
 res.cox <- coxph(Surv(Y, d2) ~ age + ccr5, data =  aidssi2_frame)
