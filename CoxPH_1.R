@@ -194,3 +194,4 @@ sctest = res_c0x_sum["sctest"]
 waldtest = res_c0x_sum["waldtest"]
 test_combin = data.frame( logtest,  sctest , waldtest  )
 test_combin = data.frame(t(test_combin))
+
