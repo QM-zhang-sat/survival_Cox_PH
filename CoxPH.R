@@ -53,7 +53,7 @@ write.csv(data.frame(aidssi2), file ="aidssi2.csv")
 # discri_statistic = data.frame(summary(aidssi2))
 
 # kaplan-meier curve for original data
-Y <- data.frame(aidssi2$death.time-aidssi2$entry.time) #time to terminal event (death from AIDS)
+Y <- data.frame(aidssi2$death.time) # -aidssi2$entry.time time to terminal event (death from AIDS)
 d2 <- data.frame(aidssi2$death.stat)#indicator for death from AIDS
 age<- data.frame(aidssi2$age.inf)
 ccr5 <- data.frame(aidssi2$ccr5 )
